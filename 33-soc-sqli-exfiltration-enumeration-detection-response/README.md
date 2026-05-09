@@ -24,7 +24,7 @@ Simulation of a **SQL Injection attack**, resulting in **data exposure and datab
 
 - Attacker: 192.168.122.1  
 - Target: 192.168.122.171  
-- SIEM: Wazuh  
+- SIEM: Wazuh   
 - Service: Apache (DVWA)  
 
 ---
