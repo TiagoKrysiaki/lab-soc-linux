@@ -295,5 +295,4 @@ The investigation validated practical SOC analyst capabilities involving:
 - SIEM troubleshooting
 
 The scenario demonstrated how missing SIEM telemetry can require deeper manual investigation and reinforced the importance of layered detection visibility in Linux environments.
-
 ```
