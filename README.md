@@ -1,24 +1,25 @@
-# 🛡️ SOC Linux Labs – Monitoring, Detection, Investigation, Classification & Response
+# 🛡️ Linux SOC & DFIR Labs – Monitoring, Detection, Investigation & Incident Response
 ![SIEM](https://img.shields.io/badge/SIEM-Wazuh-blue)
 ![Detection](https://img.shields.io/badge/Focus-Threat%20Detection-red)
 ![OS](https://img.shields.io/badge/OS-Linux-black)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-Practical SOC labs demonstrating real-world detection, investigation, and response using Wazuh (SIEM).
+Practical SOC/DFIR labs demonstrating real-world detection, threat hunting, investigation, persistence analysis, and incident response using Wazuh, auditd, and Linux telemetry.
 
-Hands-on labs focused on **Security Operations Center (SOC)** practices using **Linux, Wazuh (SIEM), auditd, and log analysis**.
+Hands-on labs focused on Security Operations Center (SOC), Detection Engineering, and DFIR practices using Linux, Wazuh (SIEM), auditd, Suricata, and log analysis.
 
 ---
 
 ## 🎯 Objective
 
-Simulate real-world attack scenarios and cover the full SOC workflow:
+Simulate realistic attack scenarios and perform the complete SOC/DFIR workflow:
 
-- Monitoring  
-- Detection  
-- Investigation (timeline + IoCs)  
-- Classification (MITRE ATT&CK)  
-- Response (containment + remediation)  
+- Monitoring and telemetry collection
+- Detection and threat validation
+- Investigation (timeline, process analysis, IoCs, persistence hunting)
+- Threat classification (MITRE ATT&CK mapping)
+- Incident response (containment, eradication, recovery)
+- Defense validation and hardening
 
 ---
 
@@ -30,23 +31,35 @@ Monitoring → Detection → Investigation → Classification → Response
 
 ## 🚨 Key Skills Demonstrated
 
-- SIEM monitoring and alerting (Wazuh)
-- Brute force detection and correlation
-- Log analysis (auth.log, auditd)
-- Incident investigation (timeline + IoCs)
-- Threat classification (MITRE ATT&CK)
-- Response and remediation (Fail2ban, hardening)
+- Linux incident response and live response investigation
+- Persistence hunting (cron, SSH keys, systemd services)
+- Process and parent-child relationship analysis
+- EXECVE telemetry analysis with auditd
+- Threat hunting and IoC collection
+- SIEM monitoring and telemetry validation (Wazuh)
+- Detection gap identification and manual investigation
+- MITRE ATT&CK mapping and threat classification
+- Incident response (containment, eradication, recovery)
+- Linux hardening and persistence mitigation
+- DFIR-oriented investigation workflow
 
 ---
 
 ## 🧰 Tools
 
-- Wazuh (SIEM)  
-- auditd  
-- auth.log  
-- Fail2ban  
-- iptables  
-- Linux CLI  
+- Wazuh (SIEM)
+- auditd
+- auth.log
+- Fail2ban
+- iptables
+- Linux CLI
+- Suricata (IDS/NSM)
+- tcpdump
+- jq
+- ps / pstree
+- ss / netstat
+- systemctl
+- cron
 
 ---
 
@@ -76,36 +89,54 @@ Monitoring → Detection → Investigation → Classification → Response
 
 Each lab includes:
 
-- `README.md` → overview  
-- `report.md` → detailed SOC incident report  
-- Evidence (logs, alerts, screenshots)  
+- `README.md` → attack overview, detection workflow, investigation summary, MITRE mapping, and response actions  
+- `report.md` → detailed SOC/DFIR incident report with timeline, IoCs, persistence analysis, and response validation  
+- Evidence → logs, telemetry, alerts, process analysis, screenshots, and investigation artifacts  
 
 ---
 
-## 🔍 Detection Example (Wazuh)
+## 🔍 Detection Examples
 
-- Rule: `40112`  
-- Event: multiple authentication failures followed by a success  
-- Classification:
-  - T1110 – Brute Force  
-  - T1078 – Valid Accounts  
+### Wazuh — Authentication Correlation
 
----
+- Rule: `40112`
+- Event: Multiple authentication failures followed by successful login
+- Detection Logic:
+  - Brute force behavior correlation
+  - Authentication anomaly validation
+  - Suspicious login sequence analysis
 
-## 🚀 Upcoming Labs
+### auditd — Linux EXECVE Monitoring
 
-- Web shell detection (Linux)  
-- DNS tunneling / exfiltration  
-- Advanced Wazuh correlation rules  
+- Event: Suspicious command execution detected
+- Commands Observed:
+  - `curl`
+  - `wget`
+  - `chmod`
+  - `bash`
+
+- Detection Context:
+  - Linux process execution telemetry
+  - Persistence activity monitoring
+  - Live response investigation support
+
+### MITRE ATT&CK
+
+- [T1110](https://attack.mitre.org/techniques/T1110/) — Brute Force
+- [T1078](https://attack.mitre.org/techniques/T1078/) — Valid Accounts
+- [T1059](https://attack.mitre.org/techniques/T1059/) — Command and Scripting Interpreter
+- [T1053.003](https://attack.mitre.org/techniques/T1053/003/) — Cron
+- [T1543.002](https://attack.mitre.org/techniques/T1543/002/) — Systemd Service
 
 ---
 
 ## 🧑‍💻 Author
 
 Tiago Krysiaki  
-Focus: SOC N1 | Blue Team | Threat Detection  
+Focus: SOC Analyst | Blue Team | Detection Engineering | DFIR  
 
-LinkedIn: https://www.linkedin.com/in/tiago-krysiaki
+LinkedIn: https://www.linkedin.com/in/tiagokrysiaki  
+Email: t.krysiaki91@gmail.com
 
 ---
 
