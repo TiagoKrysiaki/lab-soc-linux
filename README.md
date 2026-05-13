@@ -54,6 +54,7 @@ Monitoring → Detection → Investigation → Classification → Response
 
 | Lab | Description | Technologies | MITRE |
 |-----|------------|-------------|-------|
+| [34](./34-soc-linux-persistence-live-response) | Linux persistence + live response + auditd detection + process investigation + persistence hunting | Wazuh, auditd, Linux, Apache | T1059, T1053.003, T1098.004, T1543.002 |
 | [33](./33-soc-sqli-exfiltration-enumeration-detection-response) | SQL Injection (SQLi) + data exfiltration + enumeration detection + response validation | Wazuh (log analysis), Apache (access.log), DVWA | T1190, T1048, T1087 |
 | [32](./32-soc-dns-tunneling-exfiltration-detection-response-validation) | DNS tunneling + data exfiltration + behavioral detection + egress filtering containment | Suricata (eve.json), tcpdump | T1048.003, T1071.004 |
 | [31](./31-soc-web-shell-rce-detection-investigation-response) | Web shell upload + remote command execution (RCE) + post-exploitation investigation + response validation | Wazuh, Apache (access.log), DVWA | T1190, T1505.003, T1059 |
