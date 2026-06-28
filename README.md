@@ -4,7 +4,7 @@
 ![OS](https://img.shields.io/badge/OS-Linux-black)
 ![Status](https://img.shields.io/badge/Status-Active-brightgreen)
 
-Practical SOC/DFIR labs demonstrating real-world detection, threat hunting, investigation, persistence analysis, and incident response using Wazuh, auditd, and Linux telemetry.
+Practical SOC/DFIR labs demonstrating real-world detection, threat hunting, investigation, persistence analysis, and incident response using Wazuh, auditd, and Linux telemetry. 
 
 Hands-on labs focused on Security Operations Center (SOC), Detection Engineering, and DFIR practices using Linux, Wazuh (SIEM), auditd, Suricata, and log analysis.
 
