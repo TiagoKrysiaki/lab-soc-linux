@@ -6,7 +6,7 @@
 
 Simulation of a Linux compromise involving command execution, persistence mechanisms, suspicious process activity, and live incident response investigation.
 
-- Access: ✔  
+- Access: ✔ 
 - Execution: ✔  
 - Persistence: ✔  
 - Evasion: ✔  
