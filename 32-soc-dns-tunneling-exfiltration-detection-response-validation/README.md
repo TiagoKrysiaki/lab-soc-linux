@@ -10,7 +10,7 @@ Simulation of a **DNS tunneling/data exfiltration attack**, resulting in **data 
 - Execution: ✔  
 - Persistence: ❌  
 - Evasion: ✔  
-- Severity: 🔴 6/10 (Medium)  
+- Severity: 🔴 6/10 (Medium) 
 
 ---
 
