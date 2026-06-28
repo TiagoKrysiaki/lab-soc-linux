@@ -10,7 +10,7 @@ Simulation of a web shell attack via file upload vulnerability, resulting in rem
 - Execution (RCE): ✔ Yes  
 - Persistence: ❌ No  
 - Evasion: ❌ No  
-- Severity: 🔴 9/10 (Critical)  
+- Severity: 🔴 9/10 (Critical) 
 
 ---
 
